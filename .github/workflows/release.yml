@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write        # create the release tag and the GitHub release
+  pull-requests: write   # open and update the release PR
+  issues: write          # manage the labels release-please puts on its PRs
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    steps:
+      # On a regular push to main: opens or updates a release PR carrying the
+      # version bump (CHANGELOG.md + stamped version files). Nothing is tagged.
+      # On the push that merges that release PR: creates the vX.Y.Z tag and the
+      # GitHub release. The Terraform registry syncs new tags on its own.
+      #
+      # The release PR is authored with the workflow's GITHUB_TOKEN, so CI does
+      # not run on it (Actions never triggers itself). Its contents are
+      # machine-generated bookkeeping; review the version in the PR title
+      # before merging.
+      - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

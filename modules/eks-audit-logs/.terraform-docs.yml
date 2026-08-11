@@ -1,0 +1,13 @@
+formatter: markdown table
+
+output:
+  file: README.md
+  mode: inject
+
+# The providers section reads resolved versions from a local
+# .terraform.lock.hcl when one exists (created by terraform test), making the
+# output machine-dependent; the requirements section already documents the
+# constraints.
+sections:
+  hide:
+    - providers

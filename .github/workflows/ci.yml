@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Validate & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+        with:
+          terraform_version: "1.9.*"
+
+      - name: Format
+        run: terraform fmt -check -recursive
+
+      - name: Validate & Test module
+        working-directory: modules/eks-audit-logs
+        run: |
+          terraform init -backend=false
+          terraform validate
+          terraform test
+
+      - name: Validate example
+        working-directory: examples/eks-audit-logs-basic
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+  scripts:
+    name: Script tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      # Hermetic: the harness stubs gh and terraform-docs and pushes to a
+      # local bare repo, so it needs nothing beyond git and bash.
+      - run: scripts/test-bump-lambda-version.sh
+
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - uses: terraform-linters/setup-tflint@90f302c255ef959cbfb4bd10581afecdb7ece3e6 # v4.1.1
+
+      - run: tflint --init && tflint --recursive
+
+  docs:
+    name: Docs freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      # Output format and destination come from the module's .terraform-docs.yml,
+      # so every consumer of terraform-docs produces identical output.
+      - name: Regenerate and diff
+        uses: terraform-docs/gh-actions@6de6da0cefcc6b4b7a5cbea4d79d97060733093c # v1.4.1
+        with:
+          working-dir: modules/eks-audit-logs
+          config-file: .terraform-docs.yml
+          fail-on-diff: true
