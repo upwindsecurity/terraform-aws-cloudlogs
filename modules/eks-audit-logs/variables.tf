@@ -81,6 +81,17 @@ variable "lambda_memory_size" {
   default     = 128
 }
 
+variable "lambda_reserved_concurrent_executions" {
+  description = "Reserved concurrent executions for the lambda. 0 throttles the lambda entirely. null leaves concurrency unreserved."
+  type        = number
+  default     = null
+
+  validation {
+    condition     = var.lambda_reserved_concurrent_executions == null || try(var.lambda_reserved_concurrent_executions >= 0, false)
+    error_message = "lambda_reserved_concurrent_executions must be null (unreserved) or >= 0."
+  }
+}
+
 variable "lambda_timeout" {
   description = "Lambda timeout in seconds."
   type        = number

@@ -84,6 +84,7 @@ No modules.
 | <a name="input_lambda_log_retention_in_days"></a> [lambda\_log\_retention\_in\_days](#input\_lambda\_log\_retention\_in\_days) | Retention (days) for the lambda's own log group. | `number` | `90` | no |
 | <a name="input_lambda_memory_size"></a> [lambda\_memory\_size](#input\_lambda\_memory\_size) | Memory (MB) allocated to the lambda. | `number` | `128` | no |
 | <a name="input_lambda_name"></a> [lambda\_name](#input\_lambda\_name) | Name of the lambda function. Defaults to UpwindLogReporterLambda-<region>. | `string` | `null` | no |
+| <a name="input_lambda_reserved_concurrent_executions"></a> [lambda\_reserved\_concurrent\_executions](#input\_lambda\_reserved\_concurrent\_executions) | Reserved concurrent executions for the lambda. 0 throttles the lambda entirely. null leaves concurrency unreserved. | `number` | `null` | no |
 | <a name="input_lambda_runtime"></a> [lambda\_runtime](#input\_lambda\_runtime) | Runtime used by the lambda function. | `string` | `"python3.12"` | no |
 | <a name="input_lambda_timeout"></a> [lambda\_timeout](#input\_lambda\_timeout) | Lambda timeout in seconds. | `number` | `300` | no |
 | <a name="input_lambda_version"></a> [lambda\_version](#input\_lambda\_version) | Version of the Upwind log reporter lambda release to deploy. | `string` | `"1.1.0"` | no |
