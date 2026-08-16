@@ -113,6 +113,8 @@ resource "aws_lambda_function" "this" {
   memory_size   = var.lambda_memory_size
   timeout       = var.lambda_timeout
 
+  reserved_concurrent_executions = var.lambda_reserved_concurrent_executions
+
   environment {
     variables = {
       authAudience               = local.endpoints.auth_audience

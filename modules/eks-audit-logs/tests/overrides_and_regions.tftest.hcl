@@ -68,6 +68,44 @@ run "supplied_names_win" {
   }
 }
 
+run "reserved_concurrency_threads_to_lambda" {
+  command = plan
+
+  variables {
+    lambda_reserved_concurrent_executions = 5
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.reserved_concurrent_executions == 5
+    error_message = "A supplied concurrency reservation must be set on the lambda"
+  }
+}
+
+run "reserved_concurrency_zero_throttles" {
+  command = plan
+
+  variables {
+    lambda_reserved_concurrent_executions = 0
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.reserved_concurrent_executions == 0
+    error_message = "A zero reservation (throttle) must be set on the lambda verbatim"
+  }
+}
+
+run "reserved_concurrency_rejects_negative" {
+  command = plan
+
+  variables {
+    lambda_reserved_concurrent_executions = -1
+  }
+
+  expect_failures = [
+    var.lambda_reserved_concurrent_executions,
+  ]
+}
+
 run "eu_region_endpoints" {
   command = plan
 

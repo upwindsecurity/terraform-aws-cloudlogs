@@ -77,6 +77,11 @@ run "default_names_and_versions" {
   }
 
   assert {
+    condition     = aws_lambda_function.this.reserved_concurrent_executions == null
+    error_message = "Concurrency must stay unreserved when lambda_reserved_concurrent_executions is unset"
+  }
+
+  assert {
     condition     = aws_lambda_function.this.s3_key == "log_reporter/${var.lambda_version}.zip"
     error_message = "S3 key must be derived from lambda_version"
   }
