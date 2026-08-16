@@ -21,7 +21,7 @@ This repository contains Terraform modules for streaming AWS-hosted logs to
 ```hcl
 module "upwind_eks_audit_logs" {
   source  = "upwindsecurity/cloudlogs/aws//modules/eks-audit-logs"
-  version = "~> 1.0"
+  version = "~> 1.1"
 
   upwind_organization_id           = "your-organization-id"
   upwind_integration_client_id     = "your-client-id"
