@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.1.0...v1.2.0) (2026-10-01)
+
+
+### Features
+
+* make the `upwind_region` check more flexible ([#4](https://github.com/upwindsecurity/terraform-aws-cloudlogs/issues/4)) ([aa5c3e8](https://github.com/upwindsecurity/terraform-aws-cloudlogs/commit/aa5c3e84bfe36b23fbe3e760dede979ff0952363))
+
 ## [1.1.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.0.0...v1.1.0) (2026-08-16)
 
 
