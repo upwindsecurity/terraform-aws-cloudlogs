@@ -106,6 +106,29 @@ run "reserved_concurrency_rejects_negative" {
   ]
 }
 
+run "us_region_endpoints" {
+  command = plan
+
+  variables {
+    upwind_region = "us"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["baseUrl"] == "https://integration.upwind.io"
+    error_message = "us region must resolve the bare-domain base URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authUrl"] == "https://auth.upwind.io/oauth/token"
+    error_message = "us region must resolve the bare-domain auth URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authAudience"] == "https://integration.upwind.io"
+    error_message = "us region must resolve the bare-domain auth audience"
+  }
+}
+
 run "eu_region_endpoints" {
   command = plan
 
@@ -122,6 +145,11 @@ run "eu_region_endpoints" {
     condition     = aws_lambda_function.this.environment[0].variables["authUrl"] == "https://auth.eu.upwind.io/oauth/token"
     error_message = "eu region must resolve EU auth URL"
   }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authAudience"] == "https://integration.eu.upwind.io"
+    error_message = "eu region must resolve EU auth audience"
+  }
 }
 
 run "ap_region_endpoints" {
@@ -134,6 +162,16 @@ run "ap_region_endpoints" {
   assert {
     condition     = aws_lambda_function.this.environment[0].variables["baseUrl"] == "https://integration.ap.upwind.io"
     error_message = "ap region must resolve AP base URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authUrl"] == "https://auth.ap.upwind.io/oauth/token"
+    error_message = "ap region must resolve AP auth URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authAudience"] == "https://integration.ap.upwind.io"
+    error_message = "ap region must resolve AP auth audience"
   }
 }
 
@@ -158,4 +196,75 @@ run "me_region_endpoints" {
     condition     = aws_lambda_function.this.environment[0].variables["authAudience"] == "https://integration.me.upwind.io"
     error_message = "me region must resolve ME auth audience"
   }
+}
+
+run "dedicated_region_endpoints" {
+  command = plan
+
+  variables {
+    upwind_region = "pdc00"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["baseUrl"] == "https://integration.pdc00.upwind.io"
+    error_message = "A dedicated region must resolve its region-subdomain base URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authUrl"] == "https://auth.pdc00.upwind.io/oauth/token"
+    error_message = "A dedicated region must resolve its region-subdomain auth URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authAudience"] == "https://integration.pdc00.upwind.io"
+    error_message = "A dedicated region must resolve its region-subdomain auth audience"
+  }
+}
+
+run "unknown_region_is_rejected" {
+  command = plan
+
+  variables {
+    upwind_region = "xx"
+  }
+
+  expect_failures = [
+    var.upwind_region,
+  ]
+}
+
+run "uppercase_region_is_rejected" {
+  command = plan
+
+  variables {
+    upwind_region = "EU"
+  }
+
+  expect_failures = [
+    var.upwind_region,
+  ]
+}
+
+run "malformed_dedicated_region_is_rejected" {
+  command = plan
+
+  variables {
+    upwind_region = "pdc2"
+  }
+
+  expect_failures = [
+    var.upwind_region,
+  ]
+}
+
+run "overlong_dedicated_region_is_rejected" {
+  command = plan
+
+  variables {
+    upwind_region = "pdc001"
+  }
+
+  expect_failures = [
+    var.upwind_region,
+  ]
 }

@@ -28,8 +28,8 @@ variable "upwind_region" {
   default     = "us"
 
   validation {
-    condition     = contains(keys(local.upwind_endpoints), var.upwind_region)
-    error_message = "upwind_region must be one of: ${join(", ", keys(local.upwind_endpoints))}."
+    condition     = can(regex("^(us|eu|me|ap|pdc[0-9]{2})$", var.upwind_region))
+    error_message = "upwind_region must be one of: us, eu, me, ap."
   }
 }
 

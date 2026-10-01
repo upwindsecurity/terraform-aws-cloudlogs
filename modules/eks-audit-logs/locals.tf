@@ -1,27 +1,10 @@
 locals {
-  upwind_endpoints = {
-    us = {
-      base_url      = "https://integration.upwind.io"
-      auth_audience = "https://integration.upwind.io"
-      auth_url      = "https://auth.upwind.io/oauth/token"
-    }
-    eu = {
-      base_url      = "https://integration.eu.upwind.io"
-      auth_audience = "https://integration.eu.upwind.io"
-      auth_url      = "https://auth.eu.upwind.io/oauth/token"
-    }
-    me = {
-      base_url      = "https://integration.me.upwind.io"
-      auth_audience = "https://integration.me.upwind.io"
-      auth_url      = "https://auth.me.upwind.io/oauth/token"
-    }
-    ap = {
-      base_url      = "https://integration.ap.upwind.io"
-      auth_audience = "https://integration.ap.upwind.io"
-      auth_url      = "https://auth.ap.upwind.io/oauth/token"
-    }
+  upwind_domain = var.upwind_region == "us" ? "upwind.io" : "${var.upwind_region}.upwind.io"
+  endpoints = {
+    base_url      = "https://integration.${local.upwind_domain}"
+    auth_audience = "https://integration.${local.upwind_domain}"
+    auth_url      = "https://auth.${local.upwind_domain}/oauth/token"
   }
-  endpoints = local.upwind_endpoints[var.upwind_region]
 
   aws_region       = data.aws_region.current.region
   lambda_s3_bucket = "upwind-serverless-functions-${local.aws_region}"
