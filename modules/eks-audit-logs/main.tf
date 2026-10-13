@@ -67,9 +67,12 @@ resource "aws_iam_role_policy" "secret_access" {
     Statement = [
       {
         Effect = "Allow"
+        # UpdateSecret stays for lambda versions before 1.2.1, which cache the
+        # access token with it.
         Action = [
           "secretsmanager:DescribeSecret",
           "secretsmanager:UpdateSecret",
+          "secretsmanager:PutSecretValue",
           "secretsmanager:GetSecretValue"
         ]
         # Created secrets carry AWS's random 6-char ARN suffix already; a
@@ -132,6 +135,8 @@ resource "aws_lambda_function" "this" {
     upwind_lambda_log_reporter_version = var.lambda_version
     upwind_module_version              = local.upwind_version
   }
+
+  depends_on = [aws_iam_role_policy.secret_access]
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {

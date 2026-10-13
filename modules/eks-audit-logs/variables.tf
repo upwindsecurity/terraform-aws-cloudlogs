@@ -34,9 +34,9 @@ variable "upwind_region" {
 }
 
 variable "lambda_version" {
-  description = "Version of the Upwind log reporter lambda release to deploy."
+  description = "Version of the Upwind log reporter lambda release to deploy. Lambda versions newer than the module default are not supported, because they can need IAM permissions that this module version does not grant."
   type        = string
-  default     = "1.1.0" # managed-by-release-automation
+  default     = "1.2.1" # managed-by-release-automation
 }
 
 variable "lambda_runtime" {
