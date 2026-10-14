@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.2.0...v1.2.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* `terraform destroy` fails to delete the credentials secret version ([#6](https://github.com/upwindsecurity/terraform-aws-cloudlogs/issues/6)) ([46b13a0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/commit/46b13a0986399134279fb9ff1d6ef5b204535798))
+
 ## [1.2.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.1.0...v1.2.0) (2026-10-01)
 
 
