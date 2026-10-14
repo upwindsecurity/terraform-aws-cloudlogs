@@ -117,6 +117,20 @@ run "default_names_and_versions" {
   }
 }
 
+run "secret_policy_grants_token_cache_writes" {
+  command = apply
+
+  assert {
+    condition     = contains(jsondecode(aws_iam_role_policy.secret_access.policy).Statement[0].Action, "secretsmanager:PutSecretValue")
+    error_message = "Secret policy must grant PutSecretValue, which the lambda uses to cache its access token"
+  }
+
+  assert {
+    condition     = contains(jsondecode(aws_iam_role_policy.secret_access.policy).Statement[0].Action, "secretsmanager:UpdateSecret")
+    error_message = "Secret policy must keep UpdateSecret for lambda versions before 1.2.1"
+  }
+}
+
 run "lambda_version_threads_everywhere" {
   command = plan
 
