@@ -23,13 +23,13 @@ variable "upwind_credentials_secret_arn" {
 }
 
 variable "upwind_region" {
-  description = "Upwind region to connect to (us, eu, me or ap)."
+  description = "Upwind region to connect to (us, eu, me, ap or au)."
   type        = string
   default     = "us"
 
   validation {
-    condition     = can(regex("^(us|eu|me|ap|pdc[0-9]{2})$", var.upwind_region))
-    error_message = "upwind_region must be one of: us, eu, me, ap."
+    condition     = can(regex("^(us|eu|me|ap|au|pdc[0-9]{2})$", var.upwind_region))
+    error_message = "upwind_region must be one of: us, eu, me, ap, au."
   }
 }
 

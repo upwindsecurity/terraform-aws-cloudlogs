@@ -95,7 +95,7 @@ No modules.
 | <a name="input_upwind_integration_client_id"></a> [upwind\_integration\_client\_id](#input\_upwind\_integration\_client\_id) | Upwind client ID for the integration (ignored when upwind\_credentials\_secret\_arn is set). | `string` | `null` | no |
 | <a name="input_upwind_integration_client_secret"></a> [upwind\_integration\_client\_secret](#input\_upwind\_integration\_client\_secret) | Upwind client secret for the integration (ignored when upwind\_credentials\_secret\_arn is set). | `string` | `null` | no |
 | <a name="input_upwind_organization_id"></a> [upwind\_organization\_id](#input\_upwind\_organization\_id) | Upwind organization ID. | `string` | n/a | yes |
-| <a name="input_upwind_region"></a> [upwind\_region](#input\_upwind\_region) | Upwind region to connect to (us, eu, me or ap). | `string` | `"us"` | no |
+| <a name="input_upwind_region"></a> [upwind\_region](#input\_upwind\_region) | Upwind region to connect to (us, eu, me, ap or au). | `string` | `"us"` | no |
 
 ## Outputs
 
