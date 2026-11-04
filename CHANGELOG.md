@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.2.1...v1.3.0) (2026-11-04)
+
+
+### Features
+
+* support the `au` Upwind region ([#8](https://github.com/upwindsecurity/terraform-aws-cloudlogs/issues/8)) ([126a3f4](https://github.com/upwindsecurity/terraform-aws-cloudlogs/commit/126a3f49c5e530e18a59ddb4c5f4b074e04144db))
+
 ## [1.2.1](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.2.0...v1.2.1) (2026-10-14)
 
 
