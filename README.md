@@ -27,7 +27,7 @@ module "upwind_eks_audit_logs" {
   upwind_integration_client_id     = "your-client-id"
   upwind_integration_client_secret = "your-client-secret"
 
-  # upwind_region = "eu"          # us (default), eu, me or ap
+  # upwind_region = "eu"          # us (default), eu, me, ap or au
   # cluster_names = ["prod-1"]    # empty = every audit-enabled cluster in the region
 }
 ```

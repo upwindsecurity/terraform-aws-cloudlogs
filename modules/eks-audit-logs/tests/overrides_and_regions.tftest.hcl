@@ -175,6 +175,29 @@ run "ap_region_endpoints" {
   }
 }
 
+run "au_region_endpoints" {
+  command = plan
+
+  variables {
+    upwind_region = "au"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["baseUrl"] == "https://integration.au.upwind.io"
+    error_message = "au region must resolve AU base URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authUrl"] == "https://auth.au.upwind.io/oauth/token"
+    error_message = "au region must resolve AU auth URL"
+  }
+
+  assert {
+    condition     = aws_lambda_function.this.environment[0].variables["authAudience"] == "https://integration.au.upwind.io"
+    error_message = "au region must resolve AU auth audience"
+  }
+}
+
 run "me_region_endpoints" {
   command = plan
 
