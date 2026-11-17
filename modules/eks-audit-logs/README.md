@@ -39,7 +39,7 @@ terraform apply
 ## Requirements
 
 | Name | Version |
-| ---- | ------- |
+|------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.5 |
@@ -51,7 +51,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-| ---- | ---- |
+|------|------|
 | [aws_cloudwatch_log_group.lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_subscription_filter.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_subscription_filter) | resource |
 | [aws_iam_role.execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -73,7 +73,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-| ---- | ----------- | ---- | ------- | :------: |
+|------|-------------|------|---------|:--------:|
 | <a name="input_cloudwatch_policy_name"></a> [cloudwatch\_policy\_name](#input\_cloudwatch\_policy\_name) | Name of the inline IAM policy granting the lambda access to its own log group. Defaults to <region>-AllowUpwindLambdaAccessCloudWatchPolicy. | `string` | `null` | no |
 | <a name="input_cloudwatch_subscription_filter_name"></a> [cloudwatch\_subscription\_filter\_name](#input\_cloudwatch\_subscription\_filter\_name) | Name of the CloudWatch Logs subscription filter created on each cluster log group. | `string` | `"upwind-audit-only"` | no |
 | <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | EKS cluster names to integrate. Leave empty to integrate every cluster in the region that has audit logging enabled. | `list(string)` | `[]` | no |
@@ -100,7 +100,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-| ---- | ----------- |
+|------|-------------|
 | <a name="output_credentials_secret_arn"></a> [credentials\_secret\_arn](#output\_credentials\_secret\_arn) | ARN of the Secrets Manager secret holding the Upwind credentials (created or provided). |
 | <a name="output_eks_cluster_log_groups"></a> [eks\_cluster\_log\_groups](#output\_eks\_cluster\_log\_groups) | CloudWatch log groups (one per audit-enabled cluster) subscribed to the log reporter. |
 | <a name="output_eks_cluster_names"></a> [eks\_cluster\_names](#output\_eks\_cluster\_names) | Names of the EKS clusters that were provided or discovered. |
