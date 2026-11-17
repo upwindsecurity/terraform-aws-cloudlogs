@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.3.0...v1.4.0) (2026-11-17)
+
+
+### Features
+
+* UP-14716 update log reporter lambda to 1.2.3 ([#10](https://github.com/upwindsecurity/terraform-aws-cloudlogs/issues/10)) ([5f0587f](https://github.com/upwindsecurity/terraform-aws-cloudlogs/commit/5f0587faf52bdc99e28edcefde76e1ed8a26234a))
+
 ## [1.3.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.2.1...v1.3.0) (2026-11-04)
 
 
