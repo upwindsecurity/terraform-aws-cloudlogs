@@ -116,7 +116,7 @@ variable "lambda_log_level" {
 }
 
 variable "lambda_execution_role_arn" {
-  description = "ARN of an existing lambda execution IAM role. When set, the module creates no IAM role or policy."
+  description = "ARN of an existing lambda execution IAM role in this account. When set, the module creates no IAM role or policy."
   type        = string
   default     = null
 
