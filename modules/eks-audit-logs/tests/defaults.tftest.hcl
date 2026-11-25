@@ -47,22 +47,22 @@ run "default_names_and_versions" {
   command = plan
 
   assert {
-    condition     = aws_iam_role.execution.name == "us-east-1-UpwindReportLogsLambdaExecutionRole"
+    condition     = aws_iam_role.execution[0].name == "us-east-1-UpwindReportLogsLambdaExecutionRole"
     error_message = "Execution role must default to the region-prefixed name"
   }
 
   assert {
-    condition     = aws_iam_role_policy.cloudwatch_access.name == "us-east-1-AllowUpwindLambdaAccessCloudWatchPolicy"
+    condition     = aws_iam_role_policy.cloudwatch_access[0].name == "us-east-1-AllowUpwindLambdaAccessCloudWatchPolicy"
     error_message = "CloudWatch policy must default to the region-prefixed name"
   }
 
   assert {
-    condition     = aws_iam_role_policy.secret_access.name == "us-east-1-AllowUpwindLambdaAccessOwnSecretPolicy"
+    condition     = aws_iam_role_policy.secret_access[0].name == "us-east-1-AllowUpwindLambdaAccessOwnSecretPolicy"
     error_message = "Secret policy must default to the region-prefixed name"
   }
 
   assert {
-    condition     = aws_iam_role_policy.s3_access.name == "us-east-1-AllowUpwindLambdaAccessS3Policy"
+    condition     = aws_iam_role_policy.s3_access[0].name == "us-east-1-AllowUpwindLambdaAccessS3Policy"
     error_message = "S3 policy must default to the region-prefixed name"
   }
 
@@ -121,12 +121,12 @@ run "secret_policy_grants_token_cache_writes" {
   command = apply
 
   assert {
-    condition     = contains(jsondecode(aws_iam_role_policy.secret_access.policy).Statement[0].Action, "secretsmanager:PutSecretValue")
+    condition     = contains(jsondecode(aws_iam_role_policy.secret_access[0].policy).Statement[0].Action, "secretsmanager:PutSecretValue")
     error_message = "Secret policy must grant PutSecretValue, which the lambda uses to cache its access token"
   }
 
   assert {
-    condition     = contains(jsondecode(aws_iam_role_policy.secret_access.policy).Statement[0].Action, "secretsmanager:UpdateSecret")
+    condition     = contains(jsondecode(aws_iam_role_policy.secret_access[0].policy).Statement[0].Action, "secretsmanager:UpdateSecret")
     error_message = "Secret policy must keep UpdateSecret for lambda versions before 1.2.1"
   }
 }

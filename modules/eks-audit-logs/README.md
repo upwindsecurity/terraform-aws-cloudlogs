@@ -78,6 +78,7 @@ No modules.
 | <a name="input_cloudwatch_subscription_filter_name"></a> [cloudwatch\_subscription\_filter\_name](#input\_cloudwatch\_subscription\_filter\_name) | Name of the CloudWatch Logs subscription filter created on each cluster log group. | `string` | `"upwind-audit-only"` | no |
 | <a name="input_cluster_names"></a> [cluster\_names](#input\_cluster\_names) | EKS cluster names to integrate. Leave empty to integrate every cluster in the region that has audit logging enabled. | `list(string)` | `[]` | no |
 | <a name="input_filter_pattern"></a> [filter\_pattern](#input\_filter\_pattern) | CloudWatch Logs subscription filter pattern. | `string` | `"audit.k8s.io"` | no |
+| <a name="input_lambda_execution_role_arn"></a> [lambda\_execution\_role\_arn](#input\_lambda\_execution\_role\_arn) | ARN of an existing lambda execution IAM role. When set, the module creates no IAM role or policy. | `string` | `null` | no |
 | <a name="input_lambda_execution_role_name"></a> [lambda\_execution\_role\_name](#input\_lambda\_execution\_role\_name) | Name of the lambda execution IAM role. Defaults to <region>-UpwindReportLogsLambdaExecutionRole. | `string` | `null` | no |
 | <a name="input_lambda_handler"></a> [lambda\_handler](#input\_lambda\_handler) | Lambda handler entrypoint. | `string` | `"lambda_function.handler"` | no |
 | <a name="input_lambda_log_level"></a> [lambda\_log\_level](#input\_lambda\_log\_level) | Log level for the lambda. | `string` | `"WARNING"` | no |
@@ -105,4 +106,5 @@ No modules.
 | <a name="output_eks_cluster_log_groups"></a> [eks\_cluster\_log\_groups](#output\_eks\_cluster\_log\_groups) | CloudWatch log groups (one per audit-enabled cluster) subscribed to the log reporter. |
 | <a name="output_eks_cluster_names"></a> [eks\_cluster\_names](#output\_eks\_cluster\_names) | Names of the EKS clusters that were provided or discovered. |
 | <a name="output_lambda_arn"></a> [lambda\_arn](#output\_lambda\_arn) | ARN of the log reporter lambda function. |
+| <a name="output_lambda_execution_role_arn"></a> [lambda\_execution\_role\_arn](#output\_lambda\_execution\_role\_arn) | ARN of the IAM role the lambda runs as (created or provided). |
 <!-- END_TF_DOCS -->

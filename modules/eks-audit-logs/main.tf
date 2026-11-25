@@ -20,7 +20,8 @@ resource "terraform_data" "credentials_validator" {
 }
 
 resource "aws_iam_role" "execution" {
-  name = local.execution_role_name
+  count = local.is_execution_role_created ? 1 : 0
+  name  = local.execution_role_name
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -37,8 +38,9 @@ resource "aws_iam_role" "execution" {
 }
 
 resource "aws_iam_role_policy" "cloudwatch_access" {
-  name = local.cloudwatch_policy_name
-  role = aws_iam_role.execution.id
+  count = local.is_execution_role_created ? 1 : 0
+  name  = local.cloudwatch_policy_name
+  role  = aws_iam_role.execution[0].id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -59,8 +61,9 @@ resource "aws_iam_role_policy" "cloudwatch_access" {
 }
 
 resource "aws_iam_role_policy" "secret_access" {
-  name = local.secret_policy_name
-  role = aws_iam_role.execution.id
+  count = local.is_execution_role_created ? 1 : 0
+  name  = local.secret_policy_name
+  role  = aws_iam_role.execution[0].id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -84,8 +87,9 @@ resource "aws_iam_role_policy" "secret_access" {
 }
 
 resource "aws_iam_role_policy" "s3_access" {
-  name = local.s3_policy_name
-  role = aws_iam_role.execution.id
+  count = local.is_execution_role_created ? 1 : 0
+  name  = local.s3_policy_name
+  role  = aws_iam_role.execution[0].id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -107,7 +111,7 @@ resource "aws_iam_role_policy" "s3_access" {
 
 resource "aws_lambda_function" "this" {
   function_name = local.lambda_name
-  role          = aws_iam_role.execution.arn
+  role          = local.execution_role_arn
   handler       = var.lambda_handler
   runtime       = var.lambda_runtime
   architectures = ["arm64"]

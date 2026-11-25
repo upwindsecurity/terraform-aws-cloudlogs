@@ -16,6 +16,9 @@ locals {
   secret_policy_name     = coalesce(var.secret_policy_name, "${local.aws_region}-AllowUpwindLambdaAccessOwnSecretPolicy")
   s3_policy_name         = coalesce(var.s3_policy_name, "${local.aws_region}-AllowUpwindLambdaAccessS3Policy")
 
+  is_execution_role_created = var.lambda_execution_role_arn == null
+  execution_role_arn        = local.is_execution_role_created ? aws_iam_role.execution[0].arn : var.lambda_execution_role_arn
+
   is_secret_created      = var.upwind_credentials_secret_arn == null
   credentials_secret_arn = local.is_secret_created ? aws_secretsmanager_secret.upwind_api_credentials[0].arn : var.upwind_credentials_secret_arn
 

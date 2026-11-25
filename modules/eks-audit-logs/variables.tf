@@ -115,6 +115,17 @@ variable "lambda_log_level" {
   }
 }
 
+variable "lambda_execution_role_arn" {
+  description = "ARN of an existing lambda execution IAM role. When set, the module creates no IAM role or policy."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.lambda_execution_role_arn == null || can(regex("^arn:aws[a-z-]*:iam::[0-9]{12}:role/.+$", var.lambda_execution_role_arn))
+    error_message = "lambda_execution_role_arn must be an IAM role ARN, e.g. arn:aws:iam::123456789012:role/UpwindLogReporter."
+  }
+}
+
 variable "lambda_execution_role_name" {
   description = "Name of the lambda execution IAM role. Defaults to <region>-UpwindReportLogsLambdaExecutionRole."
   type        = string

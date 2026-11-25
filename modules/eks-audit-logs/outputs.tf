@@ -17,3 +17,8 @@ output "credentials_secret_arn" {
   description = "ARN of the Secrets Manager secret holding the Upwind credentials (created or provided)."
   value       = local.credentials_secret_arn
 }
+
+output "lambda_execution_role_arn" {
+  description = "ARN of the IAM role the lambda runs as (created or provided)."
+  value       = local.execution_role_arn
+}
