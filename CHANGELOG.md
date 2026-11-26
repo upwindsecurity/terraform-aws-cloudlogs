@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.4.0...v1.5.0) (2026-11-26)
+
+
+### Features
+
+* UP-16266 accept an existing lambda execution role ([#12](https://github.com/upwindsecurity/terraform-aws-cloudlogs/issues/12)) ([eeef1a8](https://github.com/upwindsecurity/terraform-aws-cloudlogs/commit/eeef1a80ac59ee1b64da18070daa3fde5e85acaa))
+
 ## [1.4.0](https://github.com/upwindsecurity/terraform-aws-cloudlogs/compare/v1.3.0...v1.4.0) (2026-11-17)
 
 
