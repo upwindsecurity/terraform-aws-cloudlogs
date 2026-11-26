@@ -55,7 +55,7 @@ run "byo_secret_policy_carries_arn_wildcard" {
   assert {
     # A customer-supplied ARN may lack the random 6-char suffix AWS appends,
     # so the policy must grant on "<arn>*" (CFN template parity).
-    condition     = jsondecode(aws_iam_role_policy.secret_access.policy).Statement[0].Resource == "${var.upwind_credentials_secret_arn}*"
+    condition     = jsondecode(aws_iam_role_policy.secret_access[0].policy).Statement[0].Resource == "${var.upwind_credentials_secret_arn}*"
     error_message = "Secret policy must target the BYO ARN with a trailing wildcard"
   }
 }

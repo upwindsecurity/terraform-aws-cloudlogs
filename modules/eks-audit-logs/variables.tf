@@ -115,6 +115,41 @@ variable "lambda_log_level" {
   }
 }
 
+variable "create_lambda_execution_role" {
+  description = "Whether to create the lambda execution IAM role. Set to `false` and pass `lambda_execution_role_arn` to use an existing role."
+  type        = bool
+  default     = true
+  nullable    = false
+
+  validation {
+    condition     = var.create_lambda_execution_role || var.lambda_execution_role_arn != null
+    error_message = "lambda_execution_role_arn is required when create_lambda_execution_role is false."
+  }
+
+  validation {
+    condition     = !var.create_lambda_execution_role || var.lambda_execution_role_arn == null
+    error_message = "lambda_execution_role_arn requires create_lambda_execution_role = false."
+  }
+
+  validation {
+    condition = var.create_lambda_execution_role || alltrue([
+      for name in [var.lambda_execution_role_name, var.cloudwatch_policy_name, var.secret_policy_name, var.s3_policy_name] : name == null
+    ])
+    error_message = "lambda_execution_role_name, cloudwatch_policy_name, secret_policy_name and s3_policy_name cannot be set when create_lambda_execution_role is false."
+  }
+}
+
+variable "lambda_execution_role_arn" {
+  description = "ARN of an existing lambda execution IAM role in this account. Requires `create_lambda_execution_role = false`. The role must trust `lambda.amazonaws.com` and allow `logs:CreateLogStream` and `logs:PutLogEvents` on `arn:aws:logs:<region>:<account-id>:log-group:/aws/lambda/<lambda_name>:*`, and `secretsmanager:DescribeSecret`, `secretsmanager:GetSecretValue`, `secretsmanager:PutSecretValue` and `secretsmanager:UpdateSecret` on `arn:aws:secretsmanager:<region>:<account-id>:secret:upwindSecurity/api/credentials-*` (or on `upwind_credentials_secret_arn` followed by `*`), plus `kms:Decrypt` and `kms:GenerateDataKey` if a customer-managed key encrypts the secret. `<lambda_name>` defaults to `UpwindLogReporterLambda-<region>`."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.lambda_execution_role_arn == null || can(regex("^arn:aws[a-z-]*:iam::[0-9]{12}:role/.+$", var.lambda_execution_role_arn))
+    error_message = "lambda_execution_role_arn must be an IAM role ARN, e.g. arn:aws:iam::123456789012:role/UpwindLogReporter."
+  }
+}
+
 variable "lambda_execution_role_name" {
   description = "Name of the lambda execution IAM role. Defaults to <region>-UpwindReportLogsLambdaExecutionRole."
   type        = string

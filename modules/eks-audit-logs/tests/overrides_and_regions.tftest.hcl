@@ -43,7 +43,7 @@ run "supplied_names_win" {
   }
 
   assert {
-    condition     = aws_iam_role.execution.name == "my-custom-role"
+    condition     = aws_iam_role.execution[0].name == "my-custom-role"
     error_message = "A supplied role name must be used verbatim"
   }
 
@@ -53,17 +53,17 @@ run "supplied_names_win" {
   }
 
   assert {
-    condition     = aws_iam_role_policy.cloudwatch_access.name == "my-cw-policy"
+    condition     = aws_iam_role_policy.cloudwatch_access[0].name == "my-cw-policy"
     error_message = "A supplied policy name must be used verbatim"
   }
 
   assert {
-    condition     = aws_iam_role_policy.secret_access.name == "my-secret-policy"
+    condition     = aws_iam_role_policy.secret_access[0].name == "my-secret-policy"
     error_message = "A supplied secret policy name must be used verbatim"
   }
 
   assert {
-    condition     = aws_iam_role_policy.s3_access.name == "my-s3-policy"
+    condition     = aws_iam_role_policy.s3_access[0].name == "my-s3-policy"
     error_message = "A supplied s3 policy name must be used verbatim"
   }
 }
