@@ -94,17 +94,14 @@ run "role_name_instead_of_arn_is_rejected" {
   expect_failures = [var.lambda_execution_role_arn]
 }
 
-run "role_arn_is_ignored_while_creating_the_role" {
+run "role_arn_requires_disabling_create" {
   command = plan
 
   variables {
     create_lambda_execution_role = true
   }
 
-  assert {
-    condition     = length(aws_iam_role.execution) == 1
-    error_message = "The module must create its role while create_lambda_execution_role is true"
-  }
+  expect_failures = [var.create_lambda_execution_role]
 }
 
 run "disabling_create_requires_role_arn" {

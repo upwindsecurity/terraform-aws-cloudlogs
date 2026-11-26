@@ -1,6 +1,6 @@
 # eks-audit-logs-existing-lambda-role
 
-Connects every audit-enabled EKS cluster in the region to Upwind, running the lambda as an existing IAM role. The module creates no IAM role or policy. See the `lambda_execution_role_arn` input for the permissions the role needs.
+Connects every audit-enabled EKS cluster in the region to Upwind, running the lambda as an existing IAM role. The module creates no IAM role or policy. See the `lambda_execution_role_arn` input for the permissions the role needs. Create the role and its policies before you apply this module.
 
 ## Usage
 

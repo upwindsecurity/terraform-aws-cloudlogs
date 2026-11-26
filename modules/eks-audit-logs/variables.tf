@@ -127,6 +127,11 @@ variable "create_lambda_execution_role" {
   }
 
   validation {
+    condition     = !var.create_lambda_execution_role || var.lambda_execution_role_arn == null
+    error_message = "lambda_execution_role_arn requires create_lambda_execution_role = false."
+  }
+
+  validation {
     condition = var.create_lambda_execution_role || alltrue([
       for name in [var.lambda_execution_role_name, var.cloudwatch_policy_name, var.secret_policy_name, var.s3_policy_name] : name == null
     ])
@@ -135,7 +140,7 @@ variable "create_lambda_execution_role" {
 }
 
 variable "lambda_execution_role_arn" {
-  description = "ARN of an existing lambda execution IAM role in this account. Only used when `create_lambda_execution_role` is `false`. The role must trust `lambda.amazonaws.com` and allow `logs:CreateLogStream` and `logs:PutLogEvents` on the lambda log group, and `secretsmanager:DescribeSecret`, `secretsmanager:GetSecretValue`, `secretsmanager:PutSecretValue` and `secretsmanager:UpdateSecret` on the credentials secret (plus `kms:Decrypt` and `kms:GenerateDataKey` for a customer-managed key)."
+  description = "ARN of an existing lambda execution IAM role in this account. Requires `create_lambda_execution_role = false`. The role must trust `lambda.amazonaws.com` and allow `logs:CreateLogStream` and `logs:PutLogEvents` on `arn:aws:logs:<region>:<account-id>:log-group:/aws/lambda/<lambda_name>:*`, and `secretsmanager:DescribeSecret`, `secretsmanager:GetSecretValue`, `secretsmanager:PutSecretValue` and `secretsmanager:UpdateSecret` on `arn:aws:secretsmanager:<region>:<account-id>:secret:upwindSecurity/api/credentials-*` (or on `upwind_credentials_secret_arn` followed by `*`), plus `kms:Decrypt` and `kms:GenerateDataKey` if a customer-managed key encrypts the secret. `<lambda_name>` defaults to `UpwindLogReporterLambda-<region>`."
   type        = string
   default     = null
 
