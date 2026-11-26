@@ -115,8 +115,27 @@ variable "lambda_log_level" {
   }
 }
 
+variable "create_lambda_execution_role" {
+  description = "Whether to create the lambda execution IAM role. Set to `false` and pass `lambda_execution_role_arn` to use an existing role."
+  type        = bool
+  default     = true
+  nullable    = false
+
+  validation {
+    condition     = var.create_lambda_execution_role || var.lambda_execution_role_arn != null
+    error_message = "lambda_execution_role_arn is required when create_lambda_execution_role is false."
+  }
+
+  validation {
+    condition = var.create_lambda_execution_role || alltrue([
+      for name in [var.lambda_execution_role_name, var.cloudwatch_policy_name, var.secret_policy_name, var.s3_policy_name] : name == null
+    ])
+    error_message = "lambda_execution_role_name, cloudwatch_policy_name, secret_policy_name and s3_policy_name cannot be set when create_lambda_execution_role is false."
+  }
+}
+
 variable "lambda_execution_role_arn" {
-  description = "ARN of an existing lambda execution IAM role in this account. When set, the module creates no IAM role or policy. The role must trust lambda.amazonaws.com and allow logs:CreateLogStream and logs:PutLogEvents on the lambda log group, and secretsmanager:DescribeSecret, GetSecretValue, PutSecretValue and UpdateSecret on the credentials secret (plus kms:Decrypt and kms:GenerateDataKey for a customer-managed key)."
+  description = "ARN of an existing lambda execution IAM role in this account. Only used when `create_lambda_execution_role` is `false`. The role must trust `lambda.amazonaws.com` and allow `logs:CreateLogStream` and `logs:PutLogEvents` on the lambda log group, and `secretsmanager:DescribeSecret`, `secretsmanager:GetSecretValue`, `secretsmanager:PutSecretValue` and `secretsmanager:UpdateSecret` on the credentials secret (plus `kms:Decrypt` and `kms:GenerateDataKey` for a customer-managed key)."
   type        = string
   default     = null
 

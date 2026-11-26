@@ -29,6 +29,7 @@ variables {
   upwind_organization_id           = "org_test"
   upwind_integration_client_id     = "test-client-id"
   upwind_integration_client_secret = "test-client-secret"
+  create_lambda_execution_role     = false
   lambda_execution_role_arn        = "arn:aws:iam::111111111111:role/customer/UpwindLogReporter"
 }
 
@@ -91,4 +92,37 @@ run "role_name_instead_of_arn_is_rejected" {
   }
 
   expect_failures = [var.lambda_execution_role_arn]
+}
+
+run "role_arn_is_ignored_while_creating_the_role" {
+  command = plan
+
+  variables {
+    create_lambda_execution_role = true
+  }
+
+  assert {
+    condition     = length(aws_iam_role.execution) == 1
+    error_message = "The module must create its role while create_lambda_execution_role is true"
+  }
+}
+
+run "disabling_create_requires_role_arn" {
+  command = plan
+
+  variables {
+    lambda_execution_role_arn = null
+  }
+
+  expect_failures = [var.create_lambda_execution_role]
+}
+
+run "role_and_policy_names_are_rejected_with_byo_role" {
+  command = plan
+
+  variables {
+    lambda_execution_role_name = "my-custom-role"
+  }
+
+  expect_failures = [var.create_lambda_execution_role]
 }

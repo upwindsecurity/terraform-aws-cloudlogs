@@ -20,7 +20,7 @@ resource "terraform_data" "credentials_validator" {
 }
 
 resource "aws_iam_role" "execution" {
-  count = local.is_execution_role_created ? 1 : 0
+  count = var.create_lambda_execution_role ? 1 : 0
   name  = local.execution_role_name
 
   assume_role_policy = jsonencode({
@@ -38,7 +38,7 @@ resource "aws_iam_role" "execution" {
 }
 
 resource "aws_iam_role_policy" "cloudwatch_access" {
-  count = local.is_execution_role_created ? 1 : 0
+  count = var.create_lambda_execution_role ? 1 : 0
   name  = local.cloudwatch_policy_name
   role  = aws_iam_role.execution[0].id
 
@@ -61,7 +61,7 @@ resource "aws_iam_role_policy" "cloudwatch_access" {
 }
 
 resource "aws_iam_role_policy" "secret_access" {
-  count = local.is_execution_role_created ? 1 : 0
+  count = var.create_lambda_execution_role ? 1 : 0
   name  = local.secret_policy_name
   role  = aws_iam_role.execution[0].id
 
@@ -87,7 +87,7 @@ resource "aws_iam_role_policy" "secret_access" {
 }
 
 resource "aws_iam_role_policy" "s3_access" {
-  count = local.is_execution_role_created ? 1 : 0
+  count = var.create_lambda_execution_role ? 1 : 0
   name  = local.s3_policy_name
   role  = aws_iam_role.execution[0].id
 
