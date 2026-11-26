@@ -116,7 +116,7 @@ variable "lambda_log_level" {
 }
 
 variable "lambda_execution_role_arn" {
-  description = "ARN of an existing lambda execution IAM role in this account. When set, the module creates no IAM role or policy."
+  description = "ARN of an existing lambda execution IAM role in this account. When set, the module creates no IAM role or policy. The role must trust lambda.amazonaws.com and allow logs:CreateLogStream and logs:PutLogEvents on the lambda log group, and secretsmanager:DescribeSecret, GetSecretValue, PutSecretValue and UpdateSecret on the credentials secret (plus kms:Decrypt and kms:GenerateDataKey for a customer-managed key)."
   type        = string
   default     = null
 
